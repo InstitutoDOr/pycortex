@@ -1,0 +1,7 @@
+tkmedit started: Wed Nov 11 10:20:31 2015
+
+	/usr/local/freesurfer/tktools/tkmedit.bin PRJ1210_SUBJ003 wm.mgz lh.smoothwm -aux brainmask.mgz -aux-surface rh.smoothwm 
+
+$Id: tkmedit.c,v 1.343 2011/03/01 01:41:22 nicks Exp $ $Name: stable5 $
+Set user home dir to /home/user/Desktop/pycortex
+Set subject home dir to /home/user/Desktop/PROJETOS/PRJ1402_VIETNAM/03_PROCS/PROC_DATA/FREESURFER/PRJ1210_SUBJ003
