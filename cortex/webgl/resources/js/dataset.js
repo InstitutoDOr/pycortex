@@ -160,44 +160,61 @@ var dataset = (function(module) {
         this.max = json.max;
         this.mosaic = json.mosaic;
         this.name = json.name;
-
-        this.data = images[json.name];
+        
+        
+	this.data = images[json.name];
         this.frames = images[json.name].length;
 
         this.textures = [];
-        var loadmosaic = function(idx) {
-            var img = new Image();
-            img.addEventListener("load", function() {
-                var tex;
-                if (this.raw) {
-                    tex = new THREE.Texture(img);
-                    tex.premultiplyAlpha = true;
-                } else {
-                    var canvas = document.createElement("canvas");
-                    var ctx = canvas.getContext('2d');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-                    var im = ctx.getImageData(0, 0, img.width, img.height).data;
-                    var arr = new Float32Array(im.buffer);
-                    tex = new THREE.DataTexture(arr, img.width, img.height, THREE.LuminanceFormat, THREE.FloatType);
-                    tex.premultiplyAlpha = false;
-                }
+        
+        var funcToPixels = function( ret ){
+        	var tex;
+		tex = new THREE.DataTexture(ret.arr, ret.width, ret.height, THREE.LuminanceFormat, THREE.FloatType);
+                tex.premultiplyAlpha = false;
                 tex.minFilter = module.filtertypes['nearest'];
                 tex.magfilter = module.filtertypes['nearest'];
                 tex.needsUpdate = true;
                 tex.flipY = false;
-                this.shape = [((img.width-1) / this.mosaic[0])-1, ((img.height-1) / this.mosaic[1])-1];
+                this.shape = [((ret.width-1) / this.mosaic[0])-1, ((ret.height-1) / this.mosaic[1])-1];
                 this.textures.push(tex);
-
                 if (this.textures.length < this.frames) {
                     this.loaded.notify(this.textures.length);
-                    loadmosaic(this.textures.length);
                 } else {
                     this.loaded.resolve();
                 }
+                return tex;
+	}.bind(this);
+	
+        var loadmosaic = function(idx) {
+            var img = new Image();
+            img.addEventListener("load", function() {
+                var tex;
+		if (this.raw) {
+                    tex = new THREE.Texture(img);
+                    tex.premultiplyAlpha = true;
+                    tex.minFilter = module.filtertypes['nearest'];
+		    tex.magfilter = module.filtertypes['nearest'];
+		    tex.needsUpdate = true;
+		    tex.flipY = false;
+		    this.shape = [((img.width-1) / this.mosaic[0])-1, ((img.height-1) / this.mosaic[1])-1];
+		    this.textures.push(tex);
+		
+		    if (this.textures.length < this.frames) {
+		    	    this.loaded.notify(this.textures.length);
+		    	    loadmosaic(this.textures.length);
+		    } else {
+		    	    this.loaded.resolve();
+		    }
+		} else {
+		    tex = extractValPixels( img.src )
+				.done(funcToPixels);
+                    	
+		}
+                
+                
+                
             }.bind(this));
-            img.src = this.data[this.textures.length];
+            img.src = this.data[this.textures.length];            
         }.bind(this);
 
         loadmosaic(0);

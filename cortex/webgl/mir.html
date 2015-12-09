@@ -1,0 +1,72 @@
+{% autoescape None %}
+{% extends template.html %}
+{% block jsinit %}
+    var viewers, subjects, datasets, figure, sock, viewopts;    
+{% end %}
+{% block onload %}
+        
+		viewopts = {
+			voxlines: {{voxlines}},
+			voxline_width: {{voxline_width}},
+			default_2Dcmap: "RdBu_covar",
+		};
+		
+		subjects = {{subjects}};
+		dataviews = dataset.fromJSON({{data}});
+
+		figure = new jsplot.W2Figure();
+		viewers = figure.add(mriview.MultiView, "main", true,{{ layout[0] }}, {{ layout[1] }}, dataviews);
+		//viewers = figure.add(sliderview.SView, "right", true, {{ layout[0] }}, {{ layout[1] }});
+		
+		
+		document.getElementById("datainterp").value = "trilinear";
+		document.title = 'Brain on Music';
+		
+		sock = new Websock();
+		
+		FacePick.prototype.callback = function( vec, hemi, ptidx ){
+			var coord = {x:vec.x, y:vec.y}; 
+			var slice = vec.z;
+			mosaic = this.viewer.dataviews['T1'].data[0].mosaic;
+			dshape = this.viewer.dataviews['T1'].data[0].shape;
+			 
+			var pos = {x:slice % mosaic[0], y:slice / mosaic[0]};
+			var offset = {x:(Math.floor(pos.x) * (dshape[0]+1.)) + 1. , y:(Math.floor(pos.y) * (dshape[1]+1.)) + 1.};
+			
+			var imsize = {x:(mosaic[0] * (dshape[0]+1.)) + 1., y:(mosaic[1] * (dshape[1]+1.)) + 1.};
+			
+			var uv_x = (2.*(offset.x+coord.x)+1.) / (2.*imsize.x);
+			var uv_y = (2.*(offset.y+coord.y)+1.) / (2.*imsize.y);
+			
+			// coord position is returned already rounded by marker position
+			var uv_x_abs = offset.x+coord.x;
+			var uv_y_abs = offset.y+coord.y;
+			
+			var im = this.viewer.dataviews['T1'].data[0].textures[0].image;
+			var w = im.width;
+			var h = im.height;
+			
+			var idx = Math.floor(uv_y_abs * w + uv_x_abs);
+			
+			var m = 0;
+			var mpos = -1;
+			data = this.viewer.dataviews['T1'].data[0].textures[0].image.data;
+			for (i = 0; i < data.length; i++) {
+    			if (data[i] > m) {
+    				m = data[i];
+    				mpos = i;
+    			}
+			}
+			console.log("Max value at index "+mpos+" and uv pos ["+mpos%w+","+Math.floor(mpos/w)+"]: "+m);
+			
+			var val = this.viewer.dataviews['T1'].data[0].textures[0].image.data[idx];
+			console.log("Voxel value at ["+coord.x+","+coord.y+","+slice+"]: "+val);
+			//console.log("Offset=["+offset.x+","+offset.y+"] - UV=["+uv_x_abs+","+uv_y_abs+"] - Mosaic position=["+pos.x+","+pos.y+"]");
+			$("#dataname .datadesc").text(val)
+		};
+		
+		
+{% end %}
+{% block extrahtml %}
+
+{% end %}

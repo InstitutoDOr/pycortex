@@ -156,8 +156,7 @@ FacePick.prototype = {
         var p = this._pick(x, y);
         if (p) {
             var vec = this.viewer.uniforms.volxfm.value[0].multiplyVector3(p.pos.clone());
-            console.log("Picked vertex "+p.ptidx+" in "+p.hemi+" hemisphere, distance="+p.dist+", voxel=["+vec.x+","+vec.y+","+vec.z+"]");
-            this.addMarker(p.hemi, p.ptidx, keep);
+            vec = this.addMarker(p.hemi, p.ptidx, keep);
             this.viewer.figure.notify("pick", this, [vec]);
             if (this.callback !== undefined)
                 this.callback(vec, p.hemi, p.ptidx);
@@ -301,6 +300,8 @@ FacePick.prototype = {
         var inv = new THREE.Matrix4().getInverse(xfm);
         var vox = xfm.multiplyVector3(vert.fid.clone());
         var voxpos = new THREE.Vector3(Math.round(vox.x), Math.round(vox.y), Math.round(vox.z));
+        var ret={x:voxpos.x,y:voxpos.y,z:voxpos.z};
+        console.log("Marker voxel position=["+voxpos.x+","+voxpos.y+","+voxpos.z+"]");
         axes.vox.applyMatrix(inv)
         axes.vox.position = inv.multiplyVector3(voxpos).subSelf(vert.fid);
         var mat = axes.vox.matrix.elements;
@@ -320,6 +321,7 @@ FacePick.prototype = {
         this.viewer.meshes[vert.name].add(marker);
 	//this.setMix({mix:this.viewer.getState("mix"), flat:this.viewer.getState("flat")});
         this.viewer.schedule();
+        return ret;
     }
 }
 
