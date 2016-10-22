@@ -14,8 +14,10 @@ var jsplot = (function (module) {
 
     module.construct = function(cls, args) {
         function F() {
+            //console.log("F called: "+cls);
             return cls.apply(this, args);
         }
+console.log(cls.prototype);
         F.prototype = cls.prototype;
         return new F();
     }
@@ -67,9 +69,12 @@ var jsplot = (function (module) {
             $(this.object).height(height);
         var w = $(this.object).width();
         var h = $(this.object).height();
+//        console.log("this.object in figure.js:"+JSON.stringify($(this.object), null, 4));
+//        console.log("width and height:"+w+","+h);
         this.dispatchEvent({type:'resize', width:w, height:h});
     }
     module.Figure.prototype.add = function(axcls) {
+	console.log("Figure.prototype.add");
         var args = Array.prototype.slice.call(arguments).slice(1);
         args.unshift(this);
         this.ax = module.construct(axcls, args);
@@ -93,8 +98,8 @@ var jsplot = (function (module) {
                 { type: 'top', resizable: true, hidden: true },
                 { type: 'bottom', resizable: true, hidden: true },
                 { type: 'left', resizable: true, hidden: true },
-                { type: 'right', resizable: true, hidden: true },
-                { type: 'main' },
+                { type: 'right', resizable: true, hidden: true , size: 400 },
+                { type: 'main'},
             ],
         });
         this.w2obj.onResize = this.resize.bind(this);
@@ -130,6 +135,7 @@ var jsplot = (function (module) {
         this.w2obj.toggle(where, instant);
     }
     module.W2Figure.prototype.setSize = function(where, size) {
+      	console.log("W2Figure.setSize - where: "+where+" size: "+size);
         if (typeof(size) == "string" && size[size.length-1] == '%') {
             var prop = parseFloat(size.slice(0, size.length-1)) / 100;
             size = $(this.object).width() * prop;
@@ -144,6 +150,8 @@ var jsplot = (function (module) {
     module.GridFigure = function(parent, nrows, ncols) {
         module.Figure.call(this, parent);
 
+		console.log("Gridfigure: "+ ncols);
+      
         this.nrows = nrows;
         this.ncols = ncols;
 

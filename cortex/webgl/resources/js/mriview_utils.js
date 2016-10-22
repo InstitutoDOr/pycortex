@@ -4,6 +4,7 @@ Number.prototype.mod = function(n) {
 
 var mriview = (function(module) {
     module.MultiView = function(parent, nrows, ncols, dataviews) {
+	console.log("MultiView constructor called");
         jsplot.GridFigure.call(this, parent, nrows, ncols);
 
         var subjects = {}, snames = [], view, subj;
@@ -18,8 +19,11 @@ var mriview = (function(module) {
 
         var viewer;
         for (var i = 0; i < snames.length; i++) {
+console.log("Multiview before add");
             viewer = this.add(mriview.Viewer, i);
+console.log("Multiview after add");
             viewer.load(window.subjects[snames[i]]);
+console.log("Multiview after load");
             this[snames[i]] = viewer;
         }
         

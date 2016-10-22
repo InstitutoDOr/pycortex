@@ -6,6 +6,7 @@ var mriview = (function(module) {
     module.flatscale = .35;
 
     module.Viewer = function(figure) { 
+console.log("Viewer constructor called");
         //Allow objects to listen for mix updates
         THREE.EventTarget.call( this );
         jsplot.Axes.call(this, figure);
@@ -19,9 +20,13 @@ var mriview = (function(module) {
         this.blanktex.needsUpdate = true;
 
         //Initialize all the html
+	console.log("mriview_html");
+	//console.trace();
+
         $(this.object).html($("#mriview_html").html())
 
         this.canvas = $(this.object).find("#brain");
+        console.log("Width of brain canvas: "+this.canvas.width());
 
         // scene and camera
         this.camera = new THREE.CombinedCamera( this.canvas.width(), this.canvas.height(), 45, 1.0, 1000, 1., 1000. );
@@ -67,6 +72,8 @@ var mriview = (function(module) {
         this.renderer.context.getExtension("OES_texture_float");
         this.renderer.context.getExtension("OES_texture_float_linear");
         this.renderer.context.getExtension("OES_standard_derivatives");
+        console.log("Width of brain canvas before renderer.setSize: "+this.canvas.width());
+
         this.renderer.setSize( this.canvas.width(), this.canvas.height() );
 
         this.uniforms = THREE.UniformsUtils.merge( [
@@ -317,6 +324,8 @@ var mriview = (function(module) {
                 width = width.width;
             }
             $(this.object).find("#brain").css("width", width);
+//            console.log("canvas width in resize:"+width);
+ //           console.trace();
             this.canvas[0].width = width;
             //width = $(this.object).width();
         }
