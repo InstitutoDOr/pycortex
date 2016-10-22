@@ -1,0 +1,45 @@
+<style type=text/css>
+#main {
+    margin:0px;
+    min-height:100%;
+    height: auto !important;
+    height:100%;
+    text-align:left;
+    width: 200px;
+    float: left;
+}
+
+#mir_panel {
+    background-color:white;
+    left:10px;
+    width:50%;
+    height:100%;
+    text-align:left;
+    float: right;
+    /*min-height: 700px;*/
+}
+#mir_table {
+   
+    border: 5px solid #d4d4d4;
+    /*min-height: 700px;*/
+}
+</style>
+<div id='mir_panel' >
+		<table id='mir_table'>
+			<tr id='mirbtns'>
+				<td></td>
+			</tr>
+			<tr title="Feature1">
+				<td><label for='f1'>Feat1</label></td>
+				<td><div id="f1">Feature1</div></td>
+			</tr>
+			<tr title="Feature2">
+				<td><label for='f2'>Feat2</label></td>
+				<td><div id="f2">Feature2</div></td>
+			</tr>
+			<tr title="Feature3">
+				<td><label for='f3'>Feat3</label></td>
+				<td><div id="f3">Feature3</div></td>
+			</tr>
+		</table>
+</div>
