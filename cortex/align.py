@@ -130,8 +130,9 @@ def automatic(subject, xfmname, reference, noclean=False, bbrtype="signed"):
 
         print('Running BBR')
         # Run epi-to-anat transform (this is more stable than anat-to-epi in FSL!)
-        cmd = '{fslpre}flirt -in {epi} -ref {raw} -dof 6 -cost bbr -wmseg {wmseg} -init {cache}/init.mat -omat {cache}/out.mat -schedule {schfile} -bbrtype {bbrtype}'
-        cmd = cmd.format(fslpre=fsl_prefix, cache=cache, raw=bet, wmseg=wmseg, epi=absreference, schfile=schfile, bbrtype=bbrtype)
+	cost = 'mutualinfo'
+        cmd = '{fslpre}flirt -in {epi} -ref {raw} -dof 6 -cost {cost} -wmseg {wmseg} -init {cache}/init.mat -omat {cache}/out.mat -schedule {schfile} -bbrtype {bbrtype}'
+        cmd = cmd.format(fslpre=fsl_prefix, cache=cache, raw=bet, wmseg=wmseg, epi=absreference, schfile=schfile, cost=cost, bbrtype=bbrtype)
         if sp.call(cmd, shell=True) != 0:
             raise IOError('Error calling BBR flirt')
 

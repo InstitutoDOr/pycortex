@@ -1,7 +1,7 @@
 import cortex
 from cortex import freesurfer
 
-ss = [7]
+ss = [5]
 for s in ss:
 	freesurfer.import_subj('SUBJ00' +str(s), 'PRJ1210_SUBJ00' +str(s))
 
