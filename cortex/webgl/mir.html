@@ -15,9 +15,7 @@
 
 		figure = new jsplot.W2Figure();
 		viewers = figure.add(mriview.MultiView, "main", true, {{ layout[0] }}, {{ layout[1] }}, dataviews);
-		viewers = figure.add(sliderview.SView, "right", true, {{ layout[0] }}, {{ layout[1] }});
-
-		sock = new Websock();
+		//viewers = figure.add(sliderview.SView, "right", true, {{ layout[0] }}, {{ layout[1] }});
 		
 		document.title = 'Brain on Music';
 		function mir_getvalue( vw, coord, slice, dataname ) {
@@ -73,7 +71,7 @@
 			var coord = {x:vec.x, y:vec.y}; 
 			var slice = vec.z;
 			
-			this.mir_feature_names = ['ZCR', 'CENTROID', 'BRIGHTNESS', 'SPREAD', 'ROLLOFF', 'ENTROPY', 'FLATNESS', 'ROUGHNESS', 'RMS', 'SUB_BAND_FLUX_01', 'SUB_BAND_FLUX_02', 'SUB_BAND_FLUX_03', 'SUB_BAND_FLUX_04', 'SUB_BAND_FLUX_05', 'SUB_BAND_FLUX_06', 'SUB_BAND_FLUX_07', 'SUB_BAND_FLUX_08', 'SUB_BAND_FLUX_09', 'SUB_BAND_FLUX_10', 'PULSE_CLARITY', 'KEY_CLARITY'];
+			this.mir_feature_names = ['ZCR', 'CENTROID', 'BRIGHTNESS', 'SPREAD', 'ROLLOFF', 'ENTROPY', 'FLATNESS', 'ROUGHNESS', 'RMS', 'BAND_FLUX_50', 'BAND_FLUX_100', 'BAND_FLUX_200', 'BAND_FLUX_400', 'BAND_FLUX_800', 'BAND_FLUX_1600', 'BAND_FLUX_3200', 'BAND_FLUX_6400', 'BAND_FLUX_12800', 'BAND_FLUX_INF', 'PULSE_CLARITY', 'KEY_CLARITY'];
 
 	    	//console.log( JSON.stringify( $(this.object).find("#mir_"+this.mir_feature_names[1]), null, 4) );
 	
@@ -119,7 +117,7 @@
 			var val = this.viewer.dataviews['CORR'].data[0].textures[0].image.data[idx];
 			console.log("Voxel value at ["+coord.x+","+coord.y+","+slice+"]: "+val);
 			//console.log("Offset=["+offset.x+","+offset.y+"] - UV=["+uv_x_abs+","+uv_y_abs+"] - Mosaic position=["+pos.x+","+pos.y+"]");
-			$("#dataname .datadesc").text(val)
+			$("#dataname .datadesc").text(parseFloat(Math.round(val * 100) / 100).toFixed(2));
 		};
 
 {% end %}
@@ -279,111 +277,101 @@
 						</table>
 					</div>
 					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_01'>
-							<tr title="SUB_BAND_FLUX_01">
-								<td><label for='mir_SUB_BAND_FLUX_01'>SUB_BAND_FLUX_01</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_01'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_02'>
-							<tr title="SUB_BAND_FLUX_02">
-								<td><label for='mir_SUB_BAND_FLUX_02'>SUB_BAND_FLUX_02</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_02'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_03'>
-							<tr title="SUB_BAND_FLUX_03">
-								<td><label for='mir_SUB_BAND_FLUX_03'>SUB_BAND_FLUX_03</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_03'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_04'>
-							<tr title="SUB_BAND_FLUX_04">
-								<td><label for='mir_SUB_BAND_FLUX_04'>SUB_BAND_FLUX_04</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_04'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_05'>
-							<tr title="SUB_BAND_FLUX_05">
-								<td><label for='mir_SUB_BAND_FLUX_05'>SUB_BAND_FLUX_05</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_05'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_06'>
-							<tr title="SUB_BAND_FLUX_06">
-								<td><label for='mir_SUB_BAND_FLUX_06'>SUB_BAND_FLUX_06</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_06'></div></td>
-							</tr>
-						</table>
-					</div>
-	
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_07'>
-							<tr title="SUB_BAND_FLUX_07">
-								<td><label for='mir_SUB_BAND_FLUX_07'>SUB_BAND_FLUX_07</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_07'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_08'>
-							<tr title="SUB_BAND_FLUX_08">
-								<td><label for='mir_SUB_BAND_FLUX_08'>SUB_BAND_FLUX_08</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_08'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_09'>
-							<tr title="SUB_BAND_FLUX_09">
-								<td><label for='mir_SUB_BAND_FLUX_09'>SUB_BAND_FLUX_09</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_09'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerSUB_BAND_FLUX_10'>
-							<tr title="SUB_BAND_FLUX_10">
-								<td><label for='mir_SUB_BAND_FLUX_10'>SUB_BAND_FLUX_10</label></td>
-								<td><div id='mir_SUB_BAND_FLUX_10'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerPULSE_CLARITY'>
-							<tr title="PULSE_CLARITY">
-								<td><label for='mir_PULSE_CLARITY'>PULSE_CLARITY</label></td>
-								<td><div id='mir_PULSE_CLARITY'></div></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='display_opt'>
-						<table id='layerKEY_CLARITY'>
-							<tr title="KEY_CLARITY">
-								<td><label for='mir_KEY_CLARITY'>KEY_CLARITY</label></td>
-								<td><div id='mir_KEY_CLARITY'></div></td>
-							</tr>
+					<div class="display_opt">
+                        <table id="layerBAND_FLUX_50">
+                        <tbody><tr title="BAND_FLUX_50">
+                        <td><label for="mir_BAND_FLUX_50">BAND_FLUX_50</label></td>
+                        <td><div id="mir_BAND_FLUX_50"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_100">
+                        <tbody><tr title="BAND_FLUX_100">
+                        <td><label for="mir_BAND_FLUX_100">BAND_FLUX_100</label></td>
+                        <td><div id="mir_BAND_FLUX_100"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_200">
+                        <tbody><tr title="BAND_FLUX_200">
+                        <td><label for="mir_BAND_FLUX_200">BAND_FLUX_200</label></td>
+                        <td><div id="mir_BAND_FLUX_200"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_400">
+                        <tbody><tr title="BAND_FLUX_400">
+                        <td><label for="mir_BAND_FLUX_400">BAND_FLUX_400</label></td>
+                        <td><div id="mir_BAND_FLUX_400"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_800">
+                        <tbody><tr title="BAND_FLUX_800">
+                        <td><label for="mir_BAND_FLUX_800">BAND_FLUX_800</label></td>
+                        <td><div id="mir_BAND_FLUX_800"/></td>
+                        </tr>
+
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_1600">
+                        <tbody><tr title="BAND_FLUX_1600">
+                        <td><label for="mir_BAND_FLUX_1600">BAND_FLUX_1600</label></td>
+                        <td><div id="mir_BAND_FLUX_1600"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_3200">
+                        <tbody><tr title="BAND_FLUX_3200">
+                        <td><label for="mir_BAND_FLUX_3200">BAND_FLUX_3200</label></td>
+                        <td><div id="mir_BAND_FLUX_3200"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_6400">
+                        <tbody><tr title="BAND_FLUX_6400">
+                        <td><label for="mir_BAND_FLUX_6400">BAND_FLUX_6400</label></td>
+                        <td><div id="mir_BAND_FLUX_6400"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_12800">
+                        <tbody><tr title="BAND_FLUX_12800">
+                        <td><label for="mir_BAND_FLUX_12800">BAND_FLUX_12800</label></td>
+                        <td><div id="mir_BAND_FLUX_12800"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerBAND_FLUX_INF">
+                        <tbody><tr title="BAND_FLUX_INF">
+                        <td><label for="mir_BAND_FLUX_INF">BAND_FLUX_INF</label></td>
+                        <td><div id="mir_BAND_FLUX_INF"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerPULSE_CLARITY">
+                        <tbody><tr title="PULSE_CLARITY">
+                        <td><label for="mir_PULSE_CLARITY">PULSE_CLARITY</label></td>
+                        <td><div id="mir_PULSE_CLARITY"/></td>
+                        </tr>
+                        </tbody></table>
+                        </div>
+                        <div class="display_opt">
+                        <table id="layerKEY_CLARITY">
+                        <tbody><tr title="KEY_CLARITY">
+                        <td><label for="mir_KEY_CLARITY">KEY_CLARITY</label></td>
+                        <td><div id="mir_KEY_CLARITY"/></td>
+                        </tr>
 						</table>
 					</div>
     
@@ -392,3 +380,4 @@
 		</div>
 </script>
 {% end %}
+

@@ -23,7 +23,7 @@ var sliderview = (function(module) {
 		 	this.mir_values[i] = 0;
 		 }
 
-        this.mir_feature_names = ['ZCR', 'CENTROID', 'BRIGHTNESS', 'SPREAD', 'ROLLOFF', 'ENTROPY', 'FLATNESS', 'ROUGHNESS', 'RMS', 'SUB_BAND_FLUX_01', 'SUB_BAND_FLUX_02', 'SUB_BAND_FLUX_03', 'SUB_BAND_FLUX_04', 'SUB_BAND_FLUX_05', 'SUB_BAND_FLUX_06', 'SUB_BAND_FLUX_07', 'SUB_BAND_FLUX_08', 'SUB_BAND_FLUX_09', 'SUB_BAND_FLUX_10', 'PULSE_CLARITY', 'KEY_CLARITY'];
+			this.mir_feature_names = ['ZCR', 'CENTROID', 'BRIGHTNESS', 'SPREAD', 'ROLLOFF', 'ENTROPY', 'FLATNESS', 'ROUGHNESS', 'RMS', 'BAND_FLUX_50', 'BAND_FLUX_100', 'BAND_FLUX_200', 'BAND_FLUX_400', 'BAND_FLUX_800', 'BAND_FLUX_1600', 'BAND_FLUX_3200', 'BAND_FLUX_6400', 'BAND_FLUX_12800', 'BAND_FLUX_INF', 'PULSE_CLARITY', 'KEY_CLARITY'];
 	
         //this.controls.addEventListener("change", this.schedule.bind(this));
         
@@ -35,7 +35,7 @@ var sliderview = (function(module) {
         for (var i = 0; i < this.mir_feature_names.length; i++) {
     		console.log(this.mir_feature_names[i]);
     		
-    		$(this.object).find("#mir_"+this.mir_feature_names[i]).slider({ min:-1, max:1, step:.01, disabled: false, value:this.mir_values[i], slide: function(event, ui) {			         	
+    		$(this.object).find("#mir_"+this.mir_feature_names[i]).slider({ min:-0.5, max:0.5, step:.01, disabled: false, value:this.mir_values[i], slide: function(event, ui) {			         	
             	this.mir_values[i] = ui.value;
             	//this.update_spec();
             	this.schedule();
@@ -89,3 +89,4 @@ var sliderview = (function(module) {
 
     return module;
 }(sliderview || {}));
+
