@@ -5,7 +5,7 @@ import cortex.dataset as dts
 
 pc = 'PC2'
 ss = [1,2,3,4,5,7]
-#ss = [3]
+ss = [1]
 for s in ss:
     subject = 'PRJ1210_SUBJ00' + str(s)
     my_min = -0.5
