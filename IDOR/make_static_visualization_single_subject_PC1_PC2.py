@@ -42,5 +42,5 @@ for s in ss:
 
     cortex.webgl.view_adapted.make_static('S' + str(s) + '_300vx_html' , ds, template='mir.html')
 
-
+insertButtons()
 

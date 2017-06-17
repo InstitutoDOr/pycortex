@@ -1,0 +1,79 @@
+function setDataOverlay(val) {
+hs=$('#layer_dataalpha').slider();
+h = val
+hs.slider('option', 'value',h);
+hs.slider('option','slide')
+       .call(hs,null,{ handle: $('.ui-slider-handle', hs), value: h });
+}
+function setOpacity() {
+setDataOverlay(0.8);
+}
+function hideOverlay() {
+setDataOverlay(0);
+}
+function setSaveView() {
+viewers.setState("pivot",-180)
+viewers.setState("azimuth",0)
+viewers.setState("mix",1)
+setOpacity()
+
+hs=$('#layer_curvmult').slider();
+h = 0;
+hs.slider('option', 'value',h);
+hs.slider('option','slide')
+       .call(hs,null,{ handle: $('.ui-slider-handle', hs), value: h });
+
+hs=$('#layer_specularity').slider();
+h = 0;
+hs.slider('option', 'value',h);
+hs.slider('option','slide')
+       .call(hs,null,{ handle: $('.ui-slider-handle', hs), value: h });
+	   
+hs=$('#layer_curvlim').slider();
+h = 0.25;
+hs.slider('option', 'value',h);
+hs.slider('option','slide')
+       .call(hs,null,{ handle: $('.ui-slider-handle', hs), value: h });
+
+       
+ks = Object.keys(viewers);
+sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
+vw = viewers[sid];
+vw.setVoxView("trilinear", viewopts.voxlines);
+};
+
+
+function savePC1() {
+ks = Object.keys(viewers);
+sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
+viewers[sid].setData('PC1');
+viewers[sid].setVoxView("trilinear", viewopts.voxlines);
+viewers[sid].figure.saveIMG(2000,1000);
+}
+
+function savePC2() {
+ks = Object.keys(viewers);
+sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
+viewers[sid].setData('PC2');
+viewers[sid].setVoxView("trilinear", viewopts.voxlines);
+viewers[sid].figure.saveIMG(2000,1000);
+}
+
+function saveBackground() {
+ks = Object.keys(viewers);
+sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
+hideOverlay();
+viewers[sid].figure.saveIMG(2000,1000);
+}
+
+
+</script>
+</head>
+<body>
+<input type="button" value="Set View" onclick="setSaveView()">
+<input type="button" value="Set Default Overlay opacity" onclick="setOpacity()">
+<input type="button" value="Hide Overlay" onclick="hideOverlay()">
+<input type="button" value="Save View PC1" onclick="savePC1()">
+<input type="button" value="Save View PC2" onclick="savePC2()">
+<input type="button" value="Save View Background" onclick="saveBackground()">
+
