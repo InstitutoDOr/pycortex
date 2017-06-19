@@ -5,11 +5,11 @@ import cortex.dataset as dts
 
 pc = 'PC2'
 ss = [1,2,3,4,5,7]
-ss = [1]
+ss = [3]
 for s in ss:
     subject = 'PRJ1210_SUBJ00' + str(s)
-    my_min = -0.5
-    my_max = 0.5
+    my_min = -0.05
+    my_max = 0.05
     cm='afmhot_inksel'
 
     ds = dts.Dataset()
@@ -42,5 +42,8 @@ for s in ss:
 
     cortex.webgl.view_adapted.make_static('S' + str(s) + '_300vx_html' , ds, template='mir.html')
 
-insertButtons()
+
+import subprocess
+subprocess.call("python /home/brain/pycortex/IDOR/insertButtons.py", shell=True)
+#insertButtons()
 

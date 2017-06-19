@@ -75,6 +75,36 @@ def manual(subject, xfmname, reference=None, **kwargs):
     
     return m
 
+def precomputed(subject, xfmname, reference, fslmatfile):
+    '''Converts transformation from reference to anatomical image with precomputed fslmatfile
+    Parameters
+    ----------
+    subject : str
+        Subject identifier.
+    xfmname : str
+        String identifying the transform to be created.
+    reference : str
+        Path to a nibabel-readable image that will be used as the reference for this transform.
+        Usually, this is a single (3D) functional data volume.
+    fslmatfile : str
+        String of the matfile already estimated by flirt, e.g. by 'flirt -in reference -ref anatomical -out ref2anat -omat ref2anat.mat -dof 6'
+    Use this method if you have already an alignment estimated with flirt between ref and anatomical image
+    '''
+    from .xfm import Transform
+    from .database import db
+    absreference = os.path.abspath(reference)
+    raw = db.get_anat(subject, type='raw').get_filename()
+    
+    x = np.loadtxt(fslmatfile)
+    # Pass transform as FROM epi TO anat; transform will be inverted 
+    # back to anat-to-epi, standard direction for pycortex internal 
+    # storage by from_fsl 
+    xfm = Transform.from_fsl(x,absreference,raw)
+    # Save as pycortex 'coord' transform
+    xfm.save(subject,xfmname,'coord')
+    print('Successfully imported precomputed transformation')
+    return
+
 def automatic(subject, xfmname, reference, noclean=False, bbrtype="signed"):
     """Create an automatic alignment using the FLIRT boundary-based alignment (BBR) from FSL. 
 
@@ -130,9 +160,8 @@ def automatic(subject, xfmname, reference, noclean=False, bbrtype="signed"):
 
         print('Running BBR')
         # Run epi-to-anat transform (this is more stable than anat-to-epi in FSL!)
-	cost = 'mutualinfo'
-        cmd = '{fslpre}flirt -in {epi} -ref {raw} -dof 6 -cost {cost} -wmseg {wmseg} -init {cache}/init.mat -omat {cache}/out.mat -schedule {schfile} -bbrtype {bbrtype}'
-        cmd = cmd.format(fslpre=fsl_prefix, cache=cache, raw=bet, wmseg=wmseg, epi=absreference, schfile=schfile, cost=cost, bbrtype=bbrtype)
+        cmd = '{fslpre}flirt -in {epi} -ref {raw} -dof 6 -cost bbr -wmseg {wmseg} -init {cache}/init.mat -omat {cache}/out.mat -schedule {schfile} -bbrtype {bbrtype}'
+        cmd = cmd.format(fslpre=fsl_prefix, cache=cache, raw=bet, wmseg=wmseg, epi=absreference, schfile=schfile, bbrtype=bbrtype)
         if sp.call(cmd, shell=True) != 0:
             raise IOError('Error calling BBR flirt')
 

@@ -1,7 +1,7 @@
 ss = [1,2,3,4,5,7]
-for s in ss
+for s in ss:
 
-    with open('S' str(s) '_300vx_html/index.html','r') as f:
+    with open('S' + str(s) + '_300vx_html/index.html','r') as f:
         html = f.read()
 
     with open('buttons.html','r') as f:
@@ -12,5 +12,5 @@ for s in ss
 
     html = html.replace(find,buttons)
 
-    with open('S' str(s) '_300vx_html/index_buttons.html','w') as out:
+    with open('S' + str(s) +  '_300vx_html/index_buttons.html','w') as out:
         out.write(html)

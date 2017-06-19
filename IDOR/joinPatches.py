@@ -27,9 +27,9 @@ lrn = ['_l' ,'_r']
 width = 500
 height = 400
 
-gap_lr = 30
+gap_lr = 50
 gap_pc = 100
-gap_ss = 10
+gap_ss = 50
 
 total_width = 4*width + 5*gap_lr + gap_pc
 total_height = 6*height+5*gap_ss+2*gap_lr
@@ -66,5 +66,5 @@ for si,s in enumerate(ss):
     y_offset += height + gap_ss
            
 #draw = ImageDraw.Draw(new_im)
-new_im.save(fdirout + 'joinedpatch.png')
+new_im.save(fdirout + 'joinedpatch_final.png')
 
