@@ -51,7 +51,7 @@ for si,s in enumerate(ss):
             im = Image.open(fdirout + 'patch' + s + f + lrn[lr] + '.png')
             
             # overlay heschlgyrus outline
-            hg = Image.open(fdirout + 'patch' + s + '_HG' + lrn[lr] + '.png')
+            hg = Image.open(fdirout + 'patch' + s + '_HG' + lrn[lr] + '_w.png')
             im.paste(hg, (0, 0), hg)
             
             # join images
@@ -60,12 +60,12 @@ for si,s in enumerate(ss):
             x_offset += width + gap_lr
             
         # add subject identifier
-        if f == '_PC1':
+        if f == '_PC3':
             draw.text((x_offset-gap_lr/2,y_offset+height/3), "S" + str(si+1), (255,255,255),font=font)
         x_offset += gap_pc
 
     y_offset += height + gap_ss
            
 #draw = ImageDraw.Draw(new_im)
-new_im.save(fdirout + 'joinedpatch_final_PC3PC4.png')
+new_im.save(fdirout + 'joinedpatch_final_PC3PC4_w.png')
 
