@@ -5,7 +5,7 @@ import cortex.dataset as dts
 
 pc = 'PC2'
 ss = [1,2,3,4,5,7]
-ss = [3]
+#ss = [3]
 for s in ss:
     subject = 'PRJ1210_SUBJ00' + str(s)
     my_min = -0.05
@@ -30,7 +30,7 @@ for s in ss:
         ds.append(**kwargs)
         #print fn
 
-    for k in [1,2]:
+    for k in [1,2, 3, 4]:
         pc = 'PC' + str(k)
         dv1 = cortex.Volume('/home/brain/pycortex/IDOR/images/RESULTS/S' + str(s) + '/sW_mean_' +pc +'best300voxels_Applied2All.nii.gz', subject, 'fullhead', description=sid, vmin=my_min, vmax=my_max, cmap='jet_alpha0',priority=len(feature_names)+k+2)
         kwargs = {pc: dv1}
@@ -40,7 +40,7 @@ for s in ss:
 
     import cortex.webgl.view_adapted
 
-    cortex.webgl.view_adapted.make_static('S' + str(s) + '_300vx_html' , ds, template='mir.html')
+    cortex.webgl.view_adapted.make_static('S' + str(s) + '_rev300vx_html' , ds, template='mir.html')
 
 
 import subprocess

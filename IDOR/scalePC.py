@@ -1,7 +1,8 @@
 from subprocess import Popen, PIPE
 
 ss = ['S1','S2','S3','S4','S5','S7']
-fs = ['_PC1','_PC2']
+#fs = ['_PC1','_PC2']
+fs = ['_PC3','_PC4']
 
 for s in ss:
     fdir  = 'images/RESULTS/'  + s

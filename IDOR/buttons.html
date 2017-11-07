@@ -59,6 +59,23 @@ viewers[sid].setVoxView("trilinear", viewopts.voxlines);
 viewers[sid].figure.saveIMG(2000,1000);
 }
 
+function savePC3() {
+ks = Object.keys(viewers);
+sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
+viewers[sid].setData('PC3');
+viewers[sid].setVoxView("trilinear", viewopts.voxlines);
+viewers[sid].figure.saveIMG(2000,1000);
+}
+
+function savePC4() {
+ks = Object.keys(viewers);
+sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
+viewers[sid].setData('PC4');
+viewers[sid].setVoxView("trilinear", viewopts.voxlines);
+viewers[sid].figure.saveIMG(2000,1000);
+}
+
+
 function saveBackground() {
 ks = Object.keys(viewers);
 sid = ks.find(function(currValue,ind) { return currValue.includes('PRJ1210_SUBJ');})
@@ -75,5 +92,7 @@ viewers[sid].figure.saveIMG(2000,1000);
 <input type="button" value="Hide Overlay" onclick="hideOverlay()">
 <input type="button" value="Save View PC1" onclick="savePC1()">
 <input type="button" value="Save View PC2" onclick="savePC2()">
+<input type="button" value="Save View PC3" onclick="savePC3()">
+<input type="button" value="Save View PC4" onclick="savePC4()">
 <input type="button" value="Save View Background" onclick="saveBackground()">
 
